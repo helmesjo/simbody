@@ -1,0 +1,35 @@
+--- a/SimTKcommon/Mechanics/include/SimTKcommon/internal/CoordinateAxis.h
++++ b/SimTKcommon/Mechanics/include/SimTKcommon/internal/CoordinateAxis.h
+@@ -180,11 +180,11 @@
+     class YTypeAxis{};
+     class ZTypeAxis{};
+ 
+-    CoordinateAxis( const XTypeAxis& ) : m_myAxisId(0) {}
+-    CoordinateAxis( const YTypeAxis& ) : m_myAxisId(1) {}
+-    CoordinateAxis( const ZTypeAxis& ) : m_myAxisId(2) {}
++    constexpr CoordinateAxis( const XTypeAxis& ) : m_myAxisId(0) {}
++    constexpr CoordinateAxis( const YTypeAxis& ) : m_myAxisId(1) {}
++    constexpr CoordinateAxis( const ZTypeAxis& ) : m_myAxisId(2) {}
+     /** @endcond **/
+-private:            
++private:
+ 
+     int m_myAxisId;
+ };
+@@ -192,13 +192,13 @@
+ 
+ // Helper classes that allow compile time recognition of axis directions.
+ class CoordinateAxis::XCoordinateAxis : public CoordinateAxis {
+-  public: XCoordinateAxis() : CoordinateAxis(XTypeAxis()) {}
++  public: constexpr XCoordinateAxis() : CoordinateAxis(XTypeAxis()) {}
+ };
+ class CoordinateAxis::YCoordinateAxis : public CoordinateAxis {
+-  public: YCoordinateAxis() : CoordinateAxis(YTypeAxis()) {}
++  public: constexpr YCoordinateAxis() : CoordinateAxis(YTypeAxis()) {}
+ };
+ class CoordinateAxis::ZCoordinateAxis : public CoordinateAxis {
+-  public: ZCoordinateAxis() : CoordinateAxis(ZTypeAxis()) {}
++  public: constexpr ZCoordinateAxis() : CoordinateAxis(ZTypeAxis()) {}
+ };
+ 
+ /** Constant representing the X coordinate axis; will implicitly convert to

@@ -1,0 +1,51 @@
+--- a/SimTKcommon/SmallMatrix/include/SimTKcommon/internal/Vec.h
++++ b/SimTKcommon/SmallMatrix/include/SimTKcommon/internal/Vec.h
+@@ -487,27 +487,27 @@
+     // A bevy of constructors for Vecs up to length 9.
+ 
+     /** Construct a Vec<2,E> from two elements of type E, etc. **/
+-    Vec(const E& e0,const E& e1)
+-      { assert(M==2);(*this)[0]=e0;(*this)[1]=e1; }
+-    Vec(const E& e0,const E& e1,const E& e2)
+-      { assert(M==3);(*this)[0]=e0;(*this)[1]=e1;(*this)[2]=e2; }
+-    Vec(const E& e0,const E& e1,const E& e2,const E& e3)
+-      { assert(M==4);(*this)[0]=e0;(*this)[1]=e1;(*this)[2]=e2;(*this)[3]=e3; }
+-    Vec(const E& e0,const E& e1,const E& e2,const E& e3,const E& e4)
+-      { assert(M==5);(*this)[0]=e0;(*this)[1]=e1;(*this)[2]=e2;
+-        (*this)[3]=e3;(*this)[4]=e4; }
+-    Vec(const E& e0,const E& e1,const E& e2,const E& e3,const E& e4,const E& e5)
+-      { assert(M==6);(*this)[0]=e0;(*this)[1]=e1;(*this)[2]=e2;
+-        (*this)[3]=e3;(*this)[4]=e4;(*this)[5]=e5; }
+-    Vec(const E& e0,const E& e1,const E& e2,const E& e3,const E& e4,const E& e5, const E& e6)
+-      { assert(M==7);(*this)[0]=e0;(*this)[1]=e1;(*this)[2]=e2;
+-        (*this)[3]=e3;(*this)[4]=e4;(*this)[5]=e5;(*this)[6]=e6; }
+-    Vec(const E& e0,const E& e1,const E& e2,const E& e3,const E& e4,const E& e5, const E& e6, const E& e7)
+-      { assert(M==8);(*this)[0]=e0;(*this)[1]=e1;(*this)[2]=e2;
+-        (*this)[3]=e3;(*this)[4]=e4;(*this)[5]=e5;(*this)[6]=e6;(*this)[7]=e7; }
+-    Vec(const E& e0,const E& e1,const E& e2,const E& e3,const E& e4,const E& e5, const E& e6, const E& e7, const E& e8)
+-      { assert(M==9);(*this)[0]=e0;(*this)[1]=e1;(*this)[2]=e2;
+-        (*this)[3]=e3;(*this)[4]=e4;(*this)[5]=e5;(*this)[6]=e6;(*this)[7]=e7;(*this)[8]=e8; }
++    constexpr Vec(const E& e0,const E& e1)
++      { d[0*STRIDE]=e0; d[1*STRIDE]=e1; }
++    constexpr Vec(const E& e0,const E& e1,const E& e2)
++      { d[0*STRIDE]=e0; d[1*STRIDE]=e1; d[2*STRIDE]=e2; }
++    constexpr Vec(const E& e0,const E& e1,const E& e2,const E& e3)
++      { d[0*STRIDE]=e0; d[1*STRIDE]=e1; d[2*STRIDE]=e2; d[3*STRIDE]=e3; }
++    constexpr Vec(const E& e0,const E& e1,const E& e2,const E& e3,const E& e4)
++      { d[0*STRIDE]=e0; d[1*STRIDE]=e1; d[2*STRIDE]=e2;
++        d[3*STRIDE]=e3; d[4*STRIDE]=e4; }
++    constexpr Vec(const E& e0,const E& e1,const E& e2,const E& e3,const E& e4,const E& e5)
++      { d[0*STRIDE]=e0; d[1*STRIDE]=e1; d[2*STRIDE]=e2;
++        d[3*STRIDE]=e3; d[4*STRIDE]=e4; d[5*STRIDE]=e5; }
++    constexpr Vec(const E& e0,const E& e1,const E& e2,const E& e3,const E& e4,const E& e5, const E& e6)
++      { d[0*STRIDE]=e0; d[1*STRIDE]=e1; d[2*STRIDE]=e2;
++        d[3*STRIDE]=e3; d[4*STRIDE]=e4; d[5*STRIDE]=e5; d[6*STRIDE]=e6; }
++    constexpr Vec(const E& e0,const E& e1,const E& e2,const E& e3,const E& e4,const E& e5, const E& e6, const E& e7)
++      { d[0*STRIDE]=e0; d[1*STRIDE]=e1; d[2*STRIDE]=e2;
++        d[3*STRIDE]=e3; d[4*STRIDE]=e4; d[5*STRIDE]=e5; d[6*STRIDE]=e6; d[7*STRIDE]=e7; }
++    constexpr Vec(const E& e0,const E& e1,const E& e2,const E& e3,const E& e4,const E& e5, const E& e6, const E& e7, const E& e8)
++      { d[0*STRIDE]=e0; d[1*STRIDE]=e1; d[2*STRIDE]=e2;
++        d[3*STRIDE]=e3; d[4*STRIDE]=e4; d[5*STRIDE]=e5; d[6*STRIDE]=e6; d[7*STRIDE]=e7; d[8*STRIDE]=e8; }
+ 
+     /** Construction from a pointer to elements of any type EE assumes we're 
+     pointing at a C++ array of EE's of the right length, and that EE is

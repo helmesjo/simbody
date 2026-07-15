@@ -1,0 +1,40 @@
+--- a/Simbody/include/simbody/internal/CableSpan.h
++++ b/Simbody/include/simbody/internal/CableSpan.h
+@@ -607,9 +607,8 @@
+     ~CableSubsystemTestHelper() noexcept;
+     CableSubsystemTestHelper(const CableSubsystemTestHelper&);
+     CableSubsystemTestHelper& operator=(const CableSubsystemTestHelper&);
+-    CableSubsystemTestHelper(CableSubsystemTestHelper&&) noexcept = default;
+-    CableSubsystemTestHelper& operator=(CableSubsystemTestHelper&&) noexcept =
+-        default;
++    CableSubsystemTestHelper(CableSubsystemTestHelper&&) noexcept;
++    CableSubsystemTestHelper& operator=(CableSubsystemTestHelper&&) noexcept;
+ 
+     /** Test the paths of all CableSpan registered in a CableSubsystem.
+     State must be realized to Stage::Position.
+--- a/Simbody/src/CableSpan_SubsystemTestHelper_Impl.cpp
++++ b/Simbody/src/CableSpan_SubsystemTestHelper_Impl.cpp
+@@ -597,6 +597,12 @@
+     return *this = CableSubsystemTestHelper(source);
+ }
+ 
++CableSubsystemTestHelper::CableSubsystemTestHelper(
++  CableSubsystemTestHelper&&) noexcept = default;
++
++CableSubsystemTestHelper& CableSubsystemTestHelper::operator=(
++  CableSubsystemTestHelper&&) noexcept = default;
++
+ void CableSubsystemTestHelper::testCurrentPath(
+     const State& state,
+     const CableSubsystem& subsystem,
+--- a/Simbody/src/CablePath.cpp
++++ b/Simbody/src/CablePath.cpp
+@@ -55,7 +55,7 @@
+         if (obs.getNumCoordsPerContactPoint() > 0) { // a surface
+             mapObstacleToSurface[ox] = next++;
+             mapSurfaceToObstacle.push_back(ox);
+-            assert(mapSurfaceToObstacle.size() == next);
++            assert(next == mapSurfaceToObstacle.size());
+         }
+         obstaclePose[ox]=obs.getDefaultPoseOnBody();
+     }
