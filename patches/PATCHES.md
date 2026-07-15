@@ -15,11 +15,15 @@ From the repo root:
 
     git apply patches/NN-Name.patch
 
-All patches apply cleanly to HEAD at the time of writing.
+Patches 01-04 apply cleanly to HEAD. Patch 05 does not apply cleanly because
+its changes are already present in master (see the patch 05 entry below).
 
 ## PR status
 
-No patches have been submitted upstream yet.
+| Patch | Status |
+|---|---|
+| 01-04 (constexpr fixes) | Not yet submitted |
+| 05 (CableSpan) | Already in master -- no PR needed |
 
 ---
 
@@ -87,7 +91,7 @@ File: `SimTKcommon/SmallMatrix/include/SimTKcommon/internal/Vec.h`
 
 ### CableSpan DLL-export compatibility
 
-**05-cable-span-out-of-line-defaults.patch**
+**05-cable-span-out-of-line-defaults.patch** *(already in master -- no PR needed)*
 Removes `= default` for `CableSubsystemTestHelper`'s move constructor and
 move-assignment operator from the class definition in `CableSpan.h` and
 provides them explicitly out-of-line (as `= default`) in
@@ -102,6 +106,13 @@ the compiler cannot guarantee that the defaulted body is identical across
 translation units when the class has members visible only through a
 forward-declared `Impl*`. Moving the definition out of the header resolves this.
 
+**Status:** Both changes are already applied in this fork's `master` branch.
+The out-of-line move operations appear in `CableSpan_SubsystemTestHelper_Impl.cpp`
+(lines 601 and 604 as of the time of writing). The `CablePath.cpp` assert was
+fixed via a cast approach in commit `9a960545` ("Disambiguate comparison in
+CablePath assert"). The patch file is retained as a historical record of what
+the build2 port changed.
+
 Files: `Simbody/include/simbody/internal/CableSpan.h`,
 `Simbody/src/CableSpan_SubsystemTestHelper_Impl.cpp`,
 `Simbody/src/CablePath.cpp`
@@ -113,4 +124,4 @@ Files: `Simbody/include/simbody/internal/CableSpan.h`,
 | PR | Patches | Branch(es) |
 |---|---|---|
 | constexpr fixes (SIOF + value types) | 01, 02, 03, 04 | `patch/constexpr-ntraits-scalar`, `patch/constexpr-color-constants`, `patch/constexpr-coordinate-axis`, `patch/constexpr-vec-constructors` |
-| CableSpan DLL-export compatibility | 05 | `patch/cable-span-out-of-line-defaults` |
+| CableSpan DLL-export compatibility | 05 | already in master, no branch needed |

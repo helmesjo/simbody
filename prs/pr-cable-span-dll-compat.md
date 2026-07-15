@@ -1,5 +1,10 @@
 Title: [portability] Move CableSubsystemTestHelper defaulted move operations out of line
 
+> **Status:** Both changes described in this file are already present in this
+> fork's `master` branch. The out-of-line move operations were merged as part
+> of recent CableSpan work. The CablePath assert was fixed via a cast approach
+> in commit `9a960545`. No PR is needed -- this file is retained for reference.
+
 ---
 
 > **Series note:** This PR is one of a set of portability and correctness fixes
