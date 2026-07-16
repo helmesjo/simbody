@@ -7,11 +7,6 @@ Title: [portability] Move CableSubsystemTestHelper defaulted move operations out
 
 ---
 
-> **Series note:** This PR is one of a set of portability and correctness fixes
-> extracted from a build2 port of Simbody. All changes fix genuine issues in the
-> upstream codebase and none is build2-specific. Each PR is self-contained and
-> can be reviewed and merged independently.
-
 ## What
 
 In `CableSpan.h`, removes `= default` from the inline declarations of

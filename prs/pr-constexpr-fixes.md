@@ -1,17 +1,15 @@
-Title: [portability] Make NTraits getters, Scalar constants, color constants, CoordinateAxis constructors, and Vec element-list constructors constexpr
+Title: [portability] Make NTraits/Scalar/Vec/CoordinateAxis constexpr to fix static init order
 
 ---
 
-> **Series note:** This PR is one of a set of portability and correctness fixes
-> extracted from a build2 port of Simbody. All changes fix genuine issues in the
-> upstream codebase and none is build2-specific. Each PR is self-contained and
-> can be reviewed and merged independently.
+> **Note:** These changes were extracted from a build2 port of Simbody. All fix
+> genuine issues in the upstream codebase and none is build2-specific.
 
 ## What
 
 Adds `constexpr` to four areas of the codebase:
 
-**NTraits.h / Scalar.cpp (patches 01)**
+**NTraits.h / Scalar.cpp (patch 01)**
 - Makes all `NTraits<T>::get*()` functions `constexpr` where the underlying
   `std::numeric_limits<T>` function is itself `constexpr`. The three
   `sqrt`/`pow`-derived getters (`getSignificant`, `getSqrtEps`, `getTiny`) are
