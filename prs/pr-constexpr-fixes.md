@@ -9,7 +9,7 @@ Title: [portability] Make NTraits/Scalar/Vec/CoordinateAxis constexpr to fix sta
 
 Adds `constexpr` to four areas of the codebase:
 
-**NTraits.h / Scalar.cpp (patch 01)**
+**NTraits.h / Scalar.cpp**
 - Makes all `NTraits<T>::get*()` functions `constexpr` where the underlying
   `std::numeric_limits<T>` function is itself `constexpr`. The three
   `sqrt`/`pow`-derived getters (`getSignificant`, `getSqrtEps`, `getTiny`) are
@@ -20,17 +20,17 @@ Adds `constexpr` to four areas of the codebase:
   `Scalar.cpp` from `const` to `constexpr` (the three `sqrt`/`pow`-derived
   values are conditionalized the same way).
 
-**DecorativeGeometry.cpp (patch 02)**
+**DecorativeGeometry.cpp**
 - Changes the eleven file-scope `const Vec3` color constants (`Black`, `Gray`,
-  `Red`, `Green`, `Blue`, `Yellow`, `Orange`, `Magenta`, `Cyan`, `White`,
-  `DarkBrown`) to `constexpr Vec3`.
+  `Red`, `Green`, `Blue`, `Yellow`, `Orange`, `Magenta`, `Purple`, `Cyan`,
+  `White`) to `constexpr Vec3`.
 
-**CoordinateAxis.h (patch 03)**
+**CoordinateAxis.h**
 - Marks the `CoordinateAxis(XTypeAxis)`, `CoordinateAxis(YTypeAxis)`, and
   `CoordinateAxis(ZTypeAxis)` constructors and the corresponding constructors in
   `XCoordinateAxis`, `YCoordinateAxis`, and `ZCoordinateAxis` as `constexpr`.
 
-**Vec.h (patch 04)**
+**Vec.h**
 - Marks the eight `Vec<M,E>` constructors that take two through nine explicit
   element arguments as `constexpr`. The constructor body is changed from
   `assert(M==N); (*this)[i]=ei;` to direct array writes `d[i*STRIDE]=ei`

@@ -122,11 +122,9 @@ Files: `Simbody/include/simbody/internal/CableSpan.h`,
 ## Notes
 
 **Patch 02 requires patch 04:** `constexpr Vec3` requires the `Vec` element-list
-constructors (patch 04) to also be `constexpr`. Patches 02 and 04 cannot be
-applied independently -- they must be applied together or with 04 first. The
-`patch/constexpr-color-constants` branch therefore does not compile standalone.
-Use the combined branch `patch/all-constexpr` (patches 01-04 in one commit)
-for the actual PR and for full static-build verification.
+constructors (patch 04) to also be `constexpr`. Use `patch/all-constexpr` (four
+sequential commits: NTraits/Scalar, CoordinateAxis, Vec, DecorativeGeometry) for
+the actual PR and for full static-build verification.
 
 **Static build on Windows:** The upstream `SimTKcommon/CMakeLists.txt` calls
 `install(IMPORTED_RUNTIME_ARTIFACTS SimTKcommon ...)` unconditionally on
