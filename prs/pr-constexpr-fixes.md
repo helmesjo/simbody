@@ -10,15 +10,18 @@ Title: [portability] Make NTraits/Scalar/Vec/CoordinateAxis constexpr to fix sta
 Adds `constexpr` to four areas of the codebase:
 
 **NTraits.h / Scalar.cpp**
-- Makes all `NTraits<T>::get*()` functions `constexpr` where the underlying
-  `std::numeric_limits<T>` function is itself `constexpr`. The three
-  `sqrt`/`pow`-derived getters (`getSignificant`, `getSqrtEps`, `getTiny`) are
-  conditionalized on `__cpp_lib_constexpr_cmath` (C++23) via helper macros and
-  fall back to function-local statics on older standards.
-- Changes the definitions of `SimTK::NaN`, `SimTK::Infinity`, `SimTK::Eps`,
-  `SimTK::Pi`, `SimTK::Zero`, `SimTK::One`, and all other numeric constants in
-  `Scalar.cpp` from `const` to `constexpr` (the three `sqrt`/`pow`-derived
-  values are conditionalized the same way).
+- Makes all `NTraits<T>::get*()` functions `constexpr`, including the
+  `sqrt`/`pow`-derived getters (`getSignificant`, `getSqrtEps`, `getTiny`). The
+  latter three are implemented via a private `SimTK::detail::ntraits_sqrt` helper
+  that uses IEEE 754 biased-exponent halving as a seed followed by Newton-Raphson
+  iteration, giving a correctly-rounded result in at most five iterations with no
+  dependency on `<cmath>`. `getLosslessNumDigits` is rewritten as a closed-form
+  expression using only compile-time constants from `std::numeric_limits`. All
+  getters are proper `constexpr` under C++20 with no conditionalization.
+- Changes all definitions in `Scalar.cpp` (`SimTK::NaN`, `SimTK::Infinity`,
+  `SimTK::Eps`, `SimTK::SqrtEps`, `SimTK::TinyReal`, `SimTK::SignificantReal`,
+  `SimTK::Pi`, `SimTK::Zero`, `SimTK::One`, and all other numeric constants) from
+  `const` to `constexpr`.
 
 **DecorativeGeometry.cpp**
 - Changes the eleven file-scope `const Vec3` color constants (`Black`, `Gray`,
@@ -33,9 +36,16 @@ Adds `constexpr` to four areas of the codebase:
 **Vec.h**
 - Marks the eight `Vec<M,E>` constructors that take two through nine explicit
   element arguments as `constexpr`. The constructor body is changed from
-  `assert(M==N); (*this)[i]=ei;` to direct array writes `d[i*STRIDE]=ei`
-  (arity is enforced by the C++ type system, so the runtime assert is
-  redundant).
+  `(*this)[i]=ei` to direct array writes `d[i*STRIDE]=ei`, which is exactly what
+  `operator[]` does and is required for the `constexpr` context. The
+  `assert(M==N)` guards are kept so debug builds still catch mismatched arity.
+
+**CMakeLists.txt**
+- Fixes a CMake 4.x compatibility issue: `install(IMPORTED_RUNTIME_ARTIFACTS)`
+  is only valid for `IMPORTED` targets and errors on CMake 4.x when given a built
+  target. Moves `RUNTIME_DEPENDENCY_SET` into the existing
+  `install(TARGETS SimTKcommon)` call via a conditional variable, guarded to
+  shared Windows builds where DLL bundling is needed.
 
 ## Why
 
