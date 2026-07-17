@@ -41,11 +41,11 @@ Adds `constexpr` to four areas of the codebase:
   `assert(M==N)` guards are kept so debug builds still catch mismatched arity.
 
 **CMakeLists.txt**
-- Fixes a CMake 4.x compatibility issue: `install(IMPORTED_RUNTIME_ARTIFACTS)`
-  is only valid for `IMPORTED` targets and errors on CMake 4.x when given a built
-  target. Moves `RUNTIME_DEPENDENCY_SET` into the existing
-  `install(TARGETS SimTKcommon)` call via a conditional variable, guarded to
-  shared Windows builds where DLL bundling is needed.
+- Tightens the guard on the `install(IMPORTED_RUNTIME_ARTIFACTS)` block from
+  `if(WIN32)` to `if(BUILD_SHARED_LIBS AND WIN32)`. The block bundles runtime
+  DLL dependencies alongside the Simbody DLL and has no purpose in a static
+  build. On CMake 4.x the call errors for static-library targets, so restricting
+  it to shared builds is both correct and necessary.
 
 ## Why
 
